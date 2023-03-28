@@ -5,13 +5,16 @@ export interface ICartProviderProps {
 }
 
 export type ICartContext = {
-  getQuantity: ({ id }: { id: number }) => number;
-  increaseQuantity: ({ id }: { id: number }) => void;
-  decreaseQuantity: ({ id }: { id: number }) => void;
-  removeFromCart: ({ id }: { id: number }) => void;
+  getQuantity: ({ id }: { id: string }) => number;
+  addToCart: ({ id }: { id: string }) => void;
+  increaseQuantity: ({ id }: { id: string }) => void;
+  decreaseQuantity: ({ id }: { id: string }) => void;
+  removeFromCart: ({ id }: { id: string }) => void;
+  cartQuantity: number
+  cartItems: ICartItem[]
 };
 
 export type ICartItem = {
-  id: number;
+  id: string;
   quantity: number;
 };
