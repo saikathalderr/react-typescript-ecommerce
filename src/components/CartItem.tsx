@@ -7,12 +7,15 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import { useCart } from "../context/cart/cartContext";
 import { ICartItem } from "../context/cart/types";
 import db from "../data/products.json";
 import { _getTotalPrice } from "../helper";
 import { IProduct } from "../interface";
 
 function CartItem({ item }: { item: ICartItem }) {
+  const { removeFromCart } = useCart();
+
   const product: IProduct | undefined = db.find((e) => e.id === item.id);
 
   if (!product) return null;
@@ -21,7 +24,12 @@ function CartItem({ item }: { item: ICartItem }) {
     <ListItem
       dense
       secondaryAction={
-        <IconButton edge="end" aria-label="delete" color="error">
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          color="error"
+          onClick={() => removeFromCart({ id: item.id })}
+        >
           <DeleteOutline />
         </IconButton>
       }
@@ -36,7 +44,7 @@ function CartItem({ item }: { item: ICartItem }) {
             <>
               <Box sx={{ display: "flex" }}>
                 <Box> ${product?.price}</Box>
-                <Box sx={{ px: .5 }}></Box>
+                <Box sx={{ px: 0.5 }}></Box>
                 <Box>
                   <b>x{item.quantity}</b>
                 </Box>
