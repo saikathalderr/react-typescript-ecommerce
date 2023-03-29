@@ -1,5 +1,5 @@
 import { ICartContext, ICartItem, ICartProviderProps } from "./types";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext } from "react";
 import db from "../../data/products.json";
 import { IProduct } from "../../interface";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ import {
   productIsOosError,
 } from "./errors";
 import { MAX_CART_ITEM } from "../../constant";
+import { useLocalStorage } from "../../hooks/useLocalStorage";
 
 const CartContext = createContext({} as ICartContext);
 
@@ -18,7 +19,7 @@ export function useCart() {
 }
 
 export function CartProvider({ children }: ICartProviderProps) {
-  const [cartItems, setCartItems] = useState<ICartItem[]>([]);
+  const [cartItems, setCartItems] = useLocalStorage<ICartItem[]>("cart", []);
 
   function getItemMaxAmount(id: string) {
     return db.find((product: IProduct) => product.id === id)?.maxAmount || 0;
