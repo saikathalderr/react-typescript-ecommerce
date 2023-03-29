@@ -37,6 +37,11 @@ function Cart() {
                 </Typography>
               </Box>
             </Box>
+            <Box>
+              <Button fullWidth variant="contained">
+                Buy
+              </Button>
+            </Box>
           </Box>
         </>
       ) : (
