@@ -5,9 +5,11 @@ import { IProduct } from "../../interface";
 import { toast } from "react-toastify";
 import {
   exceedMaxNumbersOfProductsError,
+  maxCartItemsAllowedError,
   maxQuantityAllowedWarning,
   productIsOosError,
 } from "./errors";
+import { MAX_CART_ITEM } from "../../constant";
 
 const CartContext = createContext({} as ICartContext);
 
@@ -29,12 +31,13 @@ export function CartProvider({ children }: ICartProviderProps) {
   }
   function addToCart({ id, quantity = 1 }: { id: string; quantity?: number }) {
     const hasItem = isItemInCart(id);
-    if (!hasItem) {
+    if (cartQuantity >= MAX_CART_ITEM) {
+      return toast.error(maxCartItemsAllowedError);
+    } else if (!hasItem) {
       const maxQty = getItemMaxAmount(id);
       if (maxQty <= 0) {
         return toast.error(productIsOosError);
-      }
-      if (quantity >= maxQty) {
+      } else if (quantity >= maxQty) {
         quantity = maxQty;
         toast.warning(maxQuantityAllowedWarning + maxQty);
       }
@@ -46,6 +49,9 @@ export function CartProvider({ children }: ICartProviderProps) {
     const maxQty = getItemMaxAmount(id);
 
     if (!hasItem) return;
+    else if (cartQuantity >= MAX_CART_ITEM) {
+      return toast.error(maxCartItemsAllowedError);
+    }
     else {
       if (maxQty <= 0) {
         return toast.error(productIsOosError);
@@ -84,10 +90,6 @@ export function CartProvider({ children }: ICartProviderProps) {
     (quantity, item: ICartItem) => item.quantity + quantity,
     0
   );
-
-  useEffect(() => {
-    console.log({ cartItems });
-  }, [cartItems]);
 
   return (
     <CartContext.Provider
