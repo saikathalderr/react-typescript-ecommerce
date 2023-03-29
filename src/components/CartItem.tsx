@@ -1,0 +1,60 @@
+import { DeleteOutline, LocalMallOutlined } from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { ICartItem } from "../context/cart/types";
+import db from "../data/products.json";
+import { _getTotalPrice } from "../helper";
+import { IProduct } from "../interface";
+
+function CartItem({ item }: { item: ICartItem }) {
+  const product: IProduct | undefined = db.find((e) => e.id === item.id);
+
+  if (!product) return null;
+
+  return (
+    <ListItem
+      dense
+      secondaryAction={
+        <IconButton edge="end" aria-label="delete" color="error">
+          <DeleteOutline />
+        </IconButton>
+      }
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <LocalMallOutlined />
+        </ListItemIcon>
+        <ListItemText
+          primary={product?.productName}
+          secondary={
+            <>
+              <Box sx={{ display: "flex" }}>
+                <Box> ${product?.price}</Box>
+                <Box sx={{ px: .5 }}></Box>
+                <Box>
+                  <b>x{item.quantity}</b>
+                </Box>
+                <Box sx={{ flexGrow: "1" }}></Box>
+                <Box>
+                  $
+                  {_getTotalPrice({
+                    price: product?.price,
+                    quantity: item.quantity,
+                  })}
+                </Box>
+              </Box>
+            </>
+          }
+        />
+      </ListItemButton>
+    </ListItem>
+  );
+}
+
+export default CartItem;

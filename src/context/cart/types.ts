@@ -6,7 +6,7 @@ export interface ICartProviderProps {
 
 export type ICartContext = {
   getQuantity: ({ id }: { id: string }) => number;
-  addToCart: ({ id }: { id: string }) => void;
+  addToCart: ({ id, quantity }: { id: string, quantity?: number }) => void;
   increaseQuantity: ({ id }: { id: string }) => void;
   decreaseQuantity: ({ id }: { id: string }) => void;
   removeFromCart: ({ id }: { id: string }) => void;

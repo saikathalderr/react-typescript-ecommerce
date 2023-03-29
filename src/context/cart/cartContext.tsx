@@ -10,37 +10,40 @@ export function useCart() {
 export function CartProvider({ children }: ICartProviderProps) {
   const [cartItems, setCartItems] = useState<ICartItem[]>([]);
 
+  function isItemInCart(id: string) {
+    return cartItems.find((item: ICartItem) => item.id === id);
+  }
   function getQuantity({ id }: { id: string }) {
     return cartItems.find((item: ICartItem) => item.id === id)?.quantity || 0;
   }
-  function addToCart({ id }: { id: string }) {
-    setCartItems([...cartItems, { id, quantity: 1 }])
+  function addToCart({ id, quantity = 1 }: { id: string, quantity?: number }) {
+    const hasItem = isItemInCart(id);
+    if (!hasItem) setCartItems([...cartItems, { id, quantity }]);
+    else increaseQuantity({ id })
   }
   function increaseQuantity({ id }: { id: string }) {
-    setCartItems((currentItems: ICartItem[]) => {
-      if (currentItems.find((item: ICartItem) => item.id === id) === null) {
-        return [...currentItems, { id, quantity: 1 }];
-      } else {
+    const hasItem = isItemInCart(id);
+    if (!hasItem) return;
+    else {
+      setCartItems((currentItems: ICartItem[]) => {
         return currentItems.map((item: ICartItem) => {
           if (item.id === id) return { ...item, quantity: item.quantity + 1 };
           else return item;
         });
-      }
-    });
+      });
+    }
   }
   function decreaseQuantity({ id }: { id: string }) {
-    setCartItems((currentItems: ICartItem[]) => {
-      if (
-        currentItems.find((item: ICartItem) => item.id === id)?.quantity === 1
-      ) {
-        return currentItems.filter((item) => item.id !== id);
-      } else {
+    const hasItem = isItemInCart(id);
+    if (!hasItem) return;
+    else {
+      setCartItems((currentItems: ICartItem[]) => {
         return currentItems.map((item: ICartItem) => {
           if (item.id === id) return { ...item, quantity: item.quantity - 1 };
           else return item;
         });
-      }
-    });
+      });
+    }
   }
   function removeFromCart({ id }: { id: string }) {
     setCartItems((currentItems: ICartItem[]) =>

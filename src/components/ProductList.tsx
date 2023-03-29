@@ -4,6 +4,7 @@ import AmountSlider from "./AmountSlider";
 import ProductAutocomplete from "./ProductAutocomplete";
 import { Button, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
+import { _getTotalPrice } from "../helper";
 
 function ProductList() {
   const [product, setProduct] = useState<IProduct | undefined>();
@@ -28,13 +29,13 @@ function ProductList() {
   const handleAddingToCart = () => {
     if (!product) return;
 
-    addToCart({ id: product.id });
+    addToCart({ id: product.id, quantity });
     reset();
   };
 
   useEffect(() => {
     if (product)
-      setTotalPrice(Number(Number(product.price * quantity).toFixed(2)));
+      setTotalPrice(_getTotalPrice({ price: product.price, quantity }));
     else reset();
   }, [product, quantity]);
 
