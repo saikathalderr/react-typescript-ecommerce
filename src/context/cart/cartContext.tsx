@@ -77,6 +77,9 @@ export function CartProvider({ children }: ICartProviderProps) {
       currentItems.filter((item: ICartItem) => item.id !== id)
     );
   }
+  function clearCart() {
+    return setCartItems([])
+  }
   const cartQuantity = cartItems.reduce(
     (quantity, item: ICartItem) => item.quantity + quantity,
     0
@@ -94,6 +97,7 @@ export function CartProvider({ children }: ICartProviderProps) {
         increaseQuantity,
         decreaseQuantity,
         removeFromCart,
+        clearCart,
         cartQuantity,
         cartItems,
       }}

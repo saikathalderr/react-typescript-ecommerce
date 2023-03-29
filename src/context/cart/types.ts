@@ -10,6 +10,7 @@ export type ICartContext = {
   increaseQuantity: ({ id }: { id: string }) => void;
   decreaseQuantity: ({ id }: { id: string }) => void;
   removeFromCart: ({ id }: { id: string }) => void;
+  clearCart: () => void;
   cartQuantity: number
   cartItems: ICartItem[]
 };
