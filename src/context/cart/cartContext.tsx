@@ -3,7 +3,11 @@ import { createContext, useContext, useEffect, useState } from "react";
 import db from "../../data/products.json";
 import { IProduct } from "../../interface";
 import { toast } from "react-toastify";
-import { exceedMaxNumbersOfProductsError } from "./errors";
+import {
+  exceedMaxNumbersOfProductsError,
+  maxQuantityAllowedWarning,
+  productIsOosError,
+} from "./errors";
 
 const CartContext = createContext({} as ICartContext);
 
@@ -25,15 +29,29 @@ export function CartProvider({ children }: ICartProviderProps) {
   }
   function addToCart({ id, quantity = 1 }: { id: string; quantity?: number }) {
     const hasItem = isItemInCart(id);
-    if (!hasItem) setCartItems([...cartItems, { id, quantity }]);
-    else increaseQuantity({ id });
+    if (!hasItem) {
+      const maxQty = getItemMaxAmount(id);
+      if (maxQty <= 0) {
+        return toast.error(productIsOosError);
+      }
+      if (quantity >= maxQty) {
+        quantity = maxQty;
+        toast.warning(maxQuantityAllowedWarning + maxQty);
+      }
+      setCartItems([...cartItems, { id, quantity }]);
+    } else increaseQuantity({ id });
   }
   function increaseQuantity({ id }: { id: string }) {
     const hasItem = isItemInCart(id);
+    const maxQty = getItemMaxAmount(id);
+
     if (!hasItem) return;
     else {
-      if (hasItem.quantity >= getItemMaxAmount(id))
+      if (maxQty <= 0) {
+        return toast.error(productIsOosError);
+      } else if (hasItem.quantity >= maxQty)
         return toast.error(exceedMaxNumbersOfProductsError);
+
       setCartItems((currentItems: ICartItem[]) => {
         return currentItems.map((item: ICartItem) => {
           if (item.id === id) return { ...item, quantity: item.quantity + 1 };
