@@ -87,10 +87,10 @@ export function CartProvider({ children }: ICartProviderProps) {
   function clearCart() {
     return setCartItems([]);
   }
-  function handleOpenCart() {
+  function uiOpenCartDrawer() {
     setOpenCart(true)
   }
-  function handleCloseCart() {
+  function uiCloseCartDrawer() {
     setOpenCart(false)
   }
   const cartQuantity = cartItems.reduce(
@@ -107,8 +107,8 @@ export function CartProvider({ children }: ICartProviderProps) {
         decreaseQuantity,
         removeFromCart,
         clearCart,
-        handleOpenCart,
-        handleCloseCart,
+        uiOpenCartDrawer,
+        uiCloseCartDrawer,
         openCart,
         cartQuantity,
         cartItems,

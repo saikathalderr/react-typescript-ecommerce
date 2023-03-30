@@ -8,7 +8,7 @@ import { useCart } from "../context/cart/cartContext";
 import Cart from "./Cart";
 
 export default function Header() {
-  const { cartQuantity, openCart, handleOpenCart, handleCloseCart } = useCart();
+  const { cartQuantity, openCart, uiOpenCartDrawer, uiCloseCartDrawer } = useCart();
 
   return (
     <>
@@ -16,7 +16,7 @@ export default function Header() {
         <AppBar color="transparent" position="static" sx={{ boxShadow: 0 }}>
           <Toolbar variant="dense">
             <Box sx={{ flexGrow: 1 }}></Box>
-            <IconButton aria-label="cart" onClick={() => handleOpenCart()}>
+            <IconButton aria-label="cart" onClick={() => uiOpenCartDrawer()}>
               <Badge badgeContent={cartQuantity} color="primary">
                 <ShoppingBag color="action" />
               </Badge>
@@ -26,7 +26,7 @@ export default function Header() {
         <Drawer
           anchor={"right"}
           open={openCart}
-          onClose={() => handleCloseCart()}
+          onClose={() => uiCloseCartDrawer()}
           PaperProps={{
             sx: { width: 700 },
           }}

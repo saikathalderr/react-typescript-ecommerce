@@ -10,8 +10,8 @@ export type ICartContext = {
   decreaseQuantity: ({ id }: { id: string }) => void;
   removeFromCart: ({ id }: { id: string }) => void;
   clearCart: () => void;
-  handleOpenCart: () => void;
-  handleCloseCart: () => void;
+  uiOpenCartDrawer: () => void;
+  uiCloseCartDrawer: () => void;
   openCart: boolean;
   cartQuantity: number;
   cartItems: ICartItem[];

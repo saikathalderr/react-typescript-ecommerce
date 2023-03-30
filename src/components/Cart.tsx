@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function Cart() {
-  const { cartItems, clearCart, handleCloseCart } = useCart();
+  const { cartItems, clearCart, uiCloseCartDrawer } = useCart();
   const { handleOrder } = useOrder();
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ function Cart() {
                   size="small"
                   onClick={() => {
                     clearCart();
-                    handleCloseCart();
+                    uiCloseCartDrawer();
                   }}
                 >
                   Clear
