@@ -1,5 +1,5 @@
 import { Box, Button, Divider, List, Typography } from '@mui/material';
-import { _getGrandTotal, _getTotalPrice } from '../helper';
+import { _getGrandTotal } from '../helper';
 import { useOrder } from '../context/order/orderContext';
 import { useCart } from '../context/cart/cartContext';
 import { ICartItem } from '../context/cart/types';
