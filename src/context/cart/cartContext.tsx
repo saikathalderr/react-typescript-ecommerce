@@ -33,7 +33,7 @@ export function CartProvider({ children }: ICartProviderProps) {
   }
   function addToCart({ id, quantity = 1 }: { id: string; quantity?: number }) {
     const hasItem = isItemInCart(id);
-    if (cartQuantity >= MAX_CART_ITEM) {
+    if (cartQuantity > MAX_CART_ITEM) {
       return toast.error(maxCartItemsAllowedError);
     } else if (!hasItem) {
       const maxQty = getItemMaxAmount(id);
@@ -44,9 +44,9 @@ export function CartProvider({ children }: ICartProviderProps) {
         quantity = maxQty;
         toast.warning(maxQuantityAllowedWarning + maxQty);
       }
-      if (cartQuantity + quantity >= MAX_CART_ITEM) {
+      if (cartQuantity + quantity > MAX_CART_ITEM) {
         quantity = MAX_CART_ITEM - cartQuantity;
-        toast.warning(maxCartItemsAllowedError);
+        return toast.error(maxCartItemsAllowedError);
       }
       setCartItems([...cartItems, { id, quantity }]);
     } else increaseQuantity({ id, quantity });
