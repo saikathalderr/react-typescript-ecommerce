@@ -1,5 +1,6 @@
 import { IProduct } from "../interface";
 import { Grid, Slider, TextField } from "@mui/material";
+import { MAX_CART_ITEM } from "../constant";
 
 function AmountSlider({
   handleQuantity,
@@ -24,7 +25,7 @@ function AmountSlider({
         <Grid item xs={2} sx={{ mr: 2 }}>
           <Slider
             min={1}
-            max={9}
+            max={MAX_CART_ITEM}
             defaultValue={1}
             value={quantity}
             aria-label="Amount"
@@ -43,7 +44,7 @@ function AmountSlider({
             InputLabelProps={{
               shrink: true,
             }}
-            sx={{ width: 55 }}
+            sx={{ width: 60 }}
           />
         </Grid>
         <Grid item xs={"auto"} sx={{ mx: 2 }}>
@@ -51,6 +52,9 @@ function AmountSlider({
         </Grid>
         <Grid item xs={"auto"}>
           $ {product?.price || 0.0}
+        </Grid>
+        <Grid item xs={"auto"} sx={{ mx: 2 }}>
+          <small> + {product?.taxRate || 0}% Tax</small>
         </Grid>
         <Grid item xs={"auto"} sx={{ mx: 2 }}>
           =

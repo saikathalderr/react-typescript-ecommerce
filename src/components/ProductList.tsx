@@ -35,7 +35,13 @@ function ProductList() {
 
   useEffect(() => {
     if (product)
-      setTotalPrice(_getTotalPrice({ price: product.price, quantity }));
+      setTotalPrice(
+        _getTotalPrice({
+          price: product.price,
+          quantity,
+          taxRate: product.taxRate,
+        })
+      );
     else reset();
   }, [product, quantity]);
 
