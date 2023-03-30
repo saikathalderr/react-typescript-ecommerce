@@ -40,7 +40,7 @@ export function CartProvider({ children }: ICartProviderProps) {
       if (maxQty <= 0) {
         return toast.error(productIsOosError);
       }
-      if (quantity >= maxQty) {
+      if (quantity > maxQty) {
         quantity = maxQty;
         toast.warning(maxQuantityAllowedWarning + maxQty);
       }
