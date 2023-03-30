@@ -1,13 +1,28 @@
 import { Box, Button, Divider, List, Typography } from "@mui/material";
-import { ClearAll } from "@mui/icons-material";
+import { _getGrandTotal, _getTotalPrice } from "../helper";
+import { useOrder } from "../context/order/orderContext";
 import { useCart } from "../context/cart/cartContext";
 import { ICartItem } from "../context/cart/types";
+import { IOrder } from "../context/order/types";
+import { ClearAll } from "@mui/icons-material";
 import CartItem from "./CartItem";
 import NoResults from "./NoResults";
-import { _getGrandTotal, _getTotalPrice } from "../helper";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Cart() {
   const { cartItems, clearCart } = useCart();
+  const { handleOrder } = useOrder();
+  const navigate = useNavigate()
+
+  const handleCheckout = () => {
+    handleOrder({ items: cartItems })
+      .then((resp) => {
+        const { orderId }  = resp as IOrder
+        navigate(`/order-success/${orderId}`)
+      })
+      .catch(error => toast.error(error.message))
+  };
 
   return (
     <Box sx={{ p: 10 }}>
@@ -38,7 +53,7 @@ function Cart() {
               </Box>
             </Box>
             <Box>
-              <Button fullWidth variant="contained">
+              <Button fullWidth variant="contained" onClick={handleCheckout}>
                 Buy
               </Button>
             </Box>
