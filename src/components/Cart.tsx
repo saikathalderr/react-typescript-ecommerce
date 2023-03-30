@@ -20,6 +20,7 @@ function Cart() {
       .then((resp) => {
         const { orderId } = resp as IOrder;
         navigate(`/order-success/${orderId}`);
+        uiCloseCartDrawer()
       })
       .catch((error) => toast.error(error.message));
   };
