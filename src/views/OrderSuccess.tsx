@@ -1,4 +1,4 @@
-import { Box, Divider, List, Typography } from "@mui/material";
+import { Box, Button, Divider, List, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import OrderItem from "../components/OrderItem";
 import { useOrder } from "../context/order/orderContext";
@@ -43,6 +43,14 @@ function OrderSuccess() {
               <Typography variant="h6">
                 <b>Total: ${_getGrandTotal({ items: orderItems })}</b>
               </Typography>
+            </Box>
+          </Box>
+          <Divider />
+          <Box sx={{ display: "flex", p: 2 }}>
+            <Box>
+              <Button variant="text" onClick={() => navigate("/")}>
+                Continue shopping
+              </Button>
             </Box>
           </Box>
         </Box>
