@@ -4,13 +4,11 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
-import { useState } from "react";
 import { useCart } from "../context/cart/cartContext";
 import Cart from "./Cart";
 
 export default function Header() {
-  const [openCart, setOpenCart] = useState<boolean>(false);
-  const { cartQuantity } = useCart();
+  const { cartQuantity, openCart, handleOpenCart, handleCloseCart } = useCart();
 
   return (
     <>
@@ -18,7 +16,7 @@ export default function Header() {
         <AppBar color="transparent" position="static" sx={{ boxShadow: 0 }}>
           <Toolbar variant="dense">
             <Box sx={{ flexGrow: 1 }}></Box>
-            <IconButton aria-label="cart" onClick={() => setOpenCart(true)}>
+            <IconButton aria-label="cart" onClick={() => handleOpenCart()}>
               <Badge badgeContent={cartQuantity} color="primary">
                 <ShoppingBag color="action" />
               </Badge>
@@ -28,7 +26,7 @@ export default function Header() {
         <Drawer
           anchor={"right"}
           open={openCart}
-          onClose={() => setOpenCart(false)}
+          onClose={() => handleCloseCart()}
           PaperProps={{
             sx: { width: 700 },
           }}

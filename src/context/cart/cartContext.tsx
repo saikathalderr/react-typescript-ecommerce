@@ -1,5 +1,5 @@
 import { ICartContext, ICartItem, ICartProviderProps } from "./types";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import db from "../../data/products.json";
 import { IProduct } from "../../interface";
 import { toast } from "react-toastify";
@@ -20,6 +20,7 @@ export function useCart() {
 
 export function CartProvider({ children }: ICartProviderProps) {
   const [cartItems, setCartItems] = useLocalStorage<ICartItem[]>("cart", []);
+  const [openCart, setOpenCart] = useState<boolean>(false);
 
   function getItemMaxAmount(id: string) {
     return db.find((product: IProduct) => product.id === id)?.maxAmount || 0;
@@ -52,8 +53,7 @@ export function CartProvider({ children }: ICartProviderProps) {
     if (!hasItem) return;
     else if (cartQuantity >= MAX_CART_ITEM) {
       return toast.error(maxCartItemsAllowedError);
-    }
-    else {
+    } else {
       if (maxQty <= 0) {
         return toast.error(productIsOosError);
       } else if (hasItem.quantity >= maxQty)
@@ -85,7 +85,13 @@ export function CartProvider({ children }: ICartProviderProps) {
     );
   }
   function clearCart() {
-    return setCartItems([])
+    return setCartItems([]);
+  }
+  function handleOpenCart() {
+    setOpenCart(true)
+  }
+  function handleCloseCart() {
+    setOpenCart(false)
   }
   const cartQuantity = cartItems.reduce(
     (quantity, item: ICartItem) => item.quantity + quantity,
@@ -101,6 +107,9 @@ export function CartProvider({ children }: ICartProviderProps) {
         decreaseQuantity,
         removeFromCart,
         clearCart,
+        handleOpenCart,
+        handleCloseCart,
+        openCart,
         cartQuantity,
         cartItems,
       }}

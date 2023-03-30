@@ -11,17 +11,17 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 function Cart() {
-  const { cartItems, clearCart } = useCart();
+  const { cartItems, clearCart, handleCloseCart } = useCart();
   const { handleOrder } = useOrder();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleCheckout = () => {
     handleOrder({ items: cartItems })
       .then((resp) => {
-        const { orderId }  = resp as IOrder
-        navigate(`/order-success/${orderId}`)
+        const { orderId } = resp as IOrder;
+        navigate(`/order-success/${orderId}`);
       })
-      .catch(error => toast.error(error.message))
+      .catch((error) => toast.error(error.message));
   };
 
   return (
@@ -41,7 +41,10 @@ function Cart() {
                   startIcon={<ClearAll />}
                   color="error"
                   size="small"
-                  onClick={() => clearCart()}
+                  onClick={() => {
+                    clearCart();
+                    handleCloseCart();
+                  }}
                 >
                   Clear
                 </Button>
