@@ -39,14 +39,25 @@ export function CartProvider({ children }: ICartProviderProps) {
       const maxQty = getItemMaxAmount(id);
       if (maxQty <= 0) {
         return toast.error(productIsOosError);
-      } else if (quantity >= maxQty) {
+      }
+      if (quantity >= maxQty) {
         quantity = maxQty;
         toast.warning(maxQuantityAllowedWarning + maxQty);
       }
+      if (cartQuantity + quantity >= MAX_CART_ITEM) {
+        quantity = MAX_CART_ITEM - cartQuantity;
+        toast.warning(maxCartItemsAllowedError);
+      }
       setCartItems([...cartItems, { id, quantity }]);
-    } else increaseQuantity({ id });
+    } else increaseQuantity({ id, quantity });
   }
-  function increaseQuantity({ id }: { id: string }) {
+  function increaseQuantity({
+    id,
+    quantity = 1,
+  }: {
+    id: string;
+    quantity?: number;
+  }) {
     const hasItem = isItemInCart(id);
     const maxQty = getItemMaxAmount(id);
 
@@ -61,7 +72,8 @@ export function CartProvider({ children }: ICartProviderProps) {
 
       setCartItems((currentItems: ICartItem[]) => {
         return currentItems.map((item: ICartItem) => {
-          if (item.id === id) return { ...item, quantity: item.quantity + 1 };
+          if (item.id === id)
+            return { ...item, quantity: item.quantity + quantity };
           else return item;
         });
       });
@@ -88,10 +100,10 @@ export function CartProvider({ children }: ICartProviderProps) {
     return setCartItems([]);
   }
   function uiOpenCartDrawer() {
-    setOpenCart(true)
+    setOpenCart(true);
   }
   function uiCloseCartDrawer() {
-    setOpenCart(false)
+    setOpenCart(false);
   }
   const cartQuantity = cartItems.reduce(
     (quantity, item: ICartItem) => item.quantity + quantity,

@@ -28,6 +28,6 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <RouterProvider router={router} />
       </OrderProvider>
     </CartProvider>
-    <ToastContainer />
+    <ToastContainer position="top-left" />
   </React.StrictMode>
 );
