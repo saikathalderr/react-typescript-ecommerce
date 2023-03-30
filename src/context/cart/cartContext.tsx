@@ -1,16 +1,16 @@
-import { ICartContext, ICartItem, ICartProviderProps } from "./types";
-import { createContext, useContext, useState } from "react";
-import db from "../../data/products.json";
-import { IProduct } from "../../interface";
-import { toast } from "react-toastify";
+import { ICartContext, ICartItem, ICartProviderProps } from './types';
+import { createContext, useContext, useState } from 'react';
+import db from '../../data/products.json';
+import { IProduct } from '../../interface';
+import { toast } from 'react-toastify';
 import {
   exceedMaxNumbersOfProductsError,
   maxCartItemsAllowedError,
   maxQuantityAllowedWarning,
   productIsOosError,
-} from "./errors";
-import { MAX_CART_ITEM } from "../../constant";
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+} from './errors';
+import { MAX_CART_ITEM } from '../../constant';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 const CartContext = createContext({} as ICartContext);
 
@@ -19,7 +19,7 @@ export function useCart() {
 }
 
 export function CartProvider({ children }: ICartProviderProps) {
-  const [cartItems, setCartItems] = useLocalStorage<ICartItem[]>("cart", []);
+  const [cartItems, setCartItems] = useLocalStorage<ICartItem[]>('cart', []);
   const [openCart, setOpenCart] = useState<boolean>(false);
 
   function getItemMaxAmount(id: string) {
@@ -51,13 +51,7 @@ export function CartProvider({ children }: ICartProviderProps) {
       setCartItems([...cartItems, { id, quantity }]);
     } else increaseQuantity({ id, quantity });
   }
-  function increaseQuantity({
-    id,
-    quantity = 1,
-  }: {
-    id: string;
-    quantity?: number;
-  }) {
+  function increaseQuantity({ id, quantity = 1 }: { id: string; quantity?: number }) {
     const hasItem = isItemInCart(id);
     const maxQty = getItemMaxAmount(id);
 
@@ -67,13 +61,11 @@ export function CartProvider({ children }: ICartProviderProps) {
     } else {
       if (maxQty <= 0) {
         return toast.error(productIsOosError);
-      } else if (hasItem.quantity >= maxQty)
-        return toast.error(exceedMaxNumbersOfProductsError);
+      } else if (hasItem.quantity >= maxQty) return toast.error(exceedMaxNumbersOfProductsError);
 
       setCartItems((currentItems: ICartItem[]) => {
         return currentItems.map((item: ICartItem) => {
-          if (item.id === id)
-            return { ...item, quantity: item.quantity + quantity };
+          if (item.id === id) return { ...item, quantity: item.quantity + quantity };
           else return item;
         });
       });
@@ -93,7 +85,7 @@ export function CartProvider({ children }: ICartProviderProps) {
   }
   function removeFromCart({ id }: { id: string }) {
     setCartItems((currentItems: ICartItem[]) =>
-      currentItems.filter((item: ICartItem) => item.id !== id)
+      currentItems.filter((item: ICartItem) => item.id !== id),
     );
   }
   function clearCart() {
@@ -105,10 +97,7 @@ export function CartProvider({ children }: ICartProviderProps) {
   function uiCloseCartDrawer() {
     setOpenCart(false);
   }
-  const cartQuantity = cartItems.reduce(
-    (quantity, item: ICartItem) => item.quantity + quantity,
-    0
-  );
+  const cartQuantity = cartItems.reduce((quantity, item: ICartItem) => item.quantity + quantity, 0);
 
   return (
     <CartContext.Provider

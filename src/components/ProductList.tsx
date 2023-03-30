@@ -1,10 +1,10 @@
-import { useCart } from "../context/cart/cartContext";
-import { IProduct } from "../interface";
-import AmountSlider from "./AmountSlider";
-import ProductAutocomplete from "./ProductAutocomplete";
-import { Button, Grid } from "@mui/material";
-import { useEffect, useState } from "react";
-import { _getTotalPrice } from "../helper";
+import { useCart } from '../context/cart/cartContext';
+import { IProduct } from '../interface';
+import AmountSlider from './AmountSlider';
+import ProductAutocomplete from './ProductAutocomplete';
+import { Button, Grid } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { _getTotalPrice } from '../helper';
 
 function ProductList() {
   const [product, setProduct] = useState<IProduct | undefined>();
@@ -40,7 +40,7 @@ function ProductList() {
           price: product.price,
           quantity,
           taxRate: product.taxRate,
-        })
+        }),
       );
     else reset();
   }, [product, quantity]);
@@ -60,12 +60,8 @@ function ProductList() {
             disabled={!product}
           />
         </Grid>
-        <Grid item xs="auto">
-          <Button
-            variant="contained"
-            disabled={!product}
-            onClick={handleAddingToCart}
-          >
+        <Grid item xs='auto'>
+          <Button variant='contained' disabled={!product} onClick={handleAddingToCart}>
             Add to Cart
           </Button>
         </Grid>

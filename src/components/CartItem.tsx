@@ -1,4 +1,4 @@
-import { DeleteOutline, LocalMallOutlined } from "@mui/icons-material";
+import { DeleteOutline, LocalMallOutlined } from '@mui/icons-material';
 import {
   Box,
   IconButton,
@@ -6,12 +6,12 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-} from "@mui/material";
-import { useCart } from "../context/cart/cartContext";
-import { ICartItem } from "../context/cart/types";
-import db from "../data/products.json";
-import { _getTotalPrice } from "../helper";
-import { IProduct } from "../interface";
+} from '@mui/material';
+import { useCart } from '../context/cart/cartContext';
+import { ICartItem } from '../context/cart/types';
+import db from '../data/products.json';
+import { _getTotalPrice } from '../helper';
+import { IProduct } from '../interface';
 
 function CartItem({ item }: { item: ICartItem }) {
   const { removeFromCart } = useCart();
@@ -25,9 +25,9 @@ function CartItem({ item }: { item: ICartItem }) {
       dense
       secondaryAction={
         <IconButton
-          edge="end"
-          aria-label="delete"
-          color="error"
+          edge='end'
+          aria-label='delete'
+          color='error'
           onClick={() => removeFromCart({ id: item.id })}
         >
           <DeleteOutline />
@@ -42,21 +42,23 @@ function CartItem({ item }: { item: ICartItem }) {
           primary={product?.productName}
           secondary={
             <>
-              <Box sx={{ display: "flex" }}>
+              <Box sx={{ display: 'flex' }}>
                 <Box> ${product?.price}</Box>
                 <Box sx={{ px: 0.5 }}></Box>
                 <Box>
                   <b>x{item.quantity}</b>
                 </Box>
-                <Box sx={{ flexGrow: "1" }}></Box>
-                <Box><small>{product.taxRate}% Tax</small></Box>
+                <Box sx={{ flexGrow: '1' }}></Box>
+                <Box>
+                  <small>{product.taxRate}% Tax</small>
+                </Box>
                 <Box sx={{ px: 0.5 }}></Box>
                 <Box>
                   $
                   {_getTotalPrice({
                     price: product?.price,
                     quantity: item.quantity,
-                    taxRate: product.taxRate
+                    taxRate: product.taxRate,
                   })}
                 </Box>
               </Box>

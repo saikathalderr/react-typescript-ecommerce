@@ -1,9 +1,9 @@
-import { createContext, useContext } from "react";
-import { IOrder, IOrderContext, IOrderItem, IOrderProviderProps } from "./types";
-import { noItemsToOrderError } from "./errors";
-import { toast } from "react-toastify";
-import uniqid from "uniqid";
-import { useCart } from "../cart/cartContext";
+import { createContext, useContext } from 'react';
+import { IOrder, IOrderContext, IOrderItem, IOrderProviderProps } from './types';
+import { noItemsToOrderError } from './errors';
+import { toast } from 'react-toastify';
+import uniqid from 'uniqid';
+import { useCart } from '../cart/cartContext';
 
 const OrderContext = createContext({} as IOrderContext);
 
@@ -12,8 +12,7 @@ export function useOrder() {
 }
 
 export function OrderProvider({ children }: IOrderProviderProps) {
-
-  const { clearCart } = useCart()
+  const { clearCart } = useCart();
 
   function handleOrder({ items }: { items: IOrderItem[] }) {
     return new Promise((resolve, reject) => {
@@ -25,7 +24,7 @@ export function OrderProvider({ children }: IOrderProviderProps) {
           items,
         };
         localStorage.setItem(orderId, JSON.stringify(orderPayload));
-        clearCart()
+        clearCart();
         resolve(orderPayload);
       } catch (error: any) {
         toast.error(error?.message);
@@ -35,15 +34,15 @@ export function OrderProvider({ children }: IOrderProviderProps) {
   }
 
   function getOrder({ orderId }: { orderId: string }): IOrder {
-    const json = localStorage.getItem(orderId) || ''
-    return JSON.parse(json) || []
+    const json = localStorage.getItem(orderId) || '';
+    return JSON.parse(json) || [];
   }
 
   return (
     <OrderContext.Provider
       value={{
         handleOrder,
-        getOrder
+        getOrder,
       }}
     >
       {children}

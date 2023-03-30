@@ -1,6 +1,6 @@
-import { ICartItem } from "../context/cart/types";
-import db from "../data/products.json";
-import { IProduct } from "../interface";
+import { ICartItem } from '../context/cart/types';
+import db from '../data/products.json';
+import { IProduct } from '../interface';
 
 export function _getTotalPrice({
   price,
@@ -21,9 +21,7 @@ export function _getGrandTotal({ items }: { items: ICartItem[] }): number {
 
   items.forEach((item) => {
     const { id, quantity } = item;
-    const product: IProduct | undefined = db.find(
-      (product) => product.id === id
-    );
+    const product: IProduct | undefined = db.find((product) => product.id === id);
     if (!product) return;
     const { price = 0, taxRate = 0 } = product;
 

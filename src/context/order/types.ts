@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export interface IOrderProviderProps {
   children: ReactNode;
@@ -6,7 +6,7 @@ export interface IOrderProviderProps {
 
 export type IOrderContext = {
   handleOrder: ({ items }: { items: IOrderItem[] }) => Promise<unknown>;
-  getOrder: ({ orderId }: { orderId: string }) => IOrder
+  getOrder: ({ orderId }: { orderId: string }) => IOrder;
 };
 
 export type IOrderItem = {
@@ -15,6 +15,6 @@ export type IOrderItem = {
 };
 
 export type IOrder = {
-  orderId: string
-  items: IOrderItem[]
-}
+  orderId: string;
+  items: IOrderItem[];
+};

@@ -1,1 +1,1 @@
-export const noItemsToOrderError = 'no items found to place order!'
+export const noItemsToOrderError = 'no items found to place order!';

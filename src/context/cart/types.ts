@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 export interface ICartProviderProps {
   children: ReactNode;
 }
@@ -6,7 +6,7 @@ export interface ICartProviderProps {
 export type ICartContext = {
   getQuantity: ({ id }: { id: string }) => number;
   addToCart: ({ id, quantity }: { id: string; quantity?: number }) => void;
-  increaseQuantity:  ({ id, quantity }: { id: string; quantity?: number }) => void;
+  increaseQuantity: ({ id, quantity }: { id: string; quantity?: number }) => void;
   decreaseQuantity: ({ id }: { id: string }) => void;
   removeFromCart: ({ id }: { id: string }) => void;
   clearCart: () => void;

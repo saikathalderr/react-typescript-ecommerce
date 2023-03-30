@@ -1,8 +1,8 @@
-import products from "../data/products.json";
-import { IProduct } from "../interface";
-import { Autocomplete, Box, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useCart } from "../context/cart/cartContext";
+import products from '../data/products.json';
+import { IProduct } from '../interface';
+import { Autocomplete, Box, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useCart } from '../context/cart/cartContext';
 
 export default function ProductAutocomplete({
   handleProductSelect,
@@ -20,12 +20,12 @@ export default function ProductAutocomplete({
   return (
     <div>
       <Autocomplete
-        size={"small"}
+        size={'small'}
         options={products}
         getOptionLabel={(option: IProduct) => option.productName}
         renderOption={(props: any, option: IProduct) => {
           return (
-            <Box {...props} key={option.id} sx={{ display: "flex" }}>
+            <Box {...props} key={option.id} sx={{ display: 'flex' }}>
               <Box>{option.productName}</Box>
               <Box sx={{ flexGrow: 1 }}></Box>
               <Box>${option.price}</Box>
@@ -42,7 +42,7 @@ export default function ProductAutocomplete({
             setSelectedProduct(newValue);
           }
         }}
-        renderInput={(params) => <TextField {...params} label="Products" />}
+        renderInput={(params) => <TextField {...params} label='Products' />}
       />
     </div>
   );
