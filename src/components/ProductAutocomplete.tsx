@@ -1,12 +1,22 @@
 import products from "../data/products.json";
 import { IProduct } from "../interface";
 import { Autocomplete, Box, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useCart } from "../context/cart/cartContext";
 
 export default function ProductAutocomplete({
   handleProductSelect,
 }: {
   handleProductSelect: Function;
 }) {
+  const { cartItems } = useCart();
+
+  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null);
+
+  useEffect(() => {
+    setSelectedProduct(null);
+  }, [cartItems]);
+
   return (
     <div>
       <Autocomplete
@@ -22,8 +32,15 @@ export default function ProductAutocomplete({
             </Box>
           );
         }}
+        value={selectedProduct}
         onChange={(event, newValue) => {
-          return handleProductSelect(newValue);
+          if (!newValue) {
+            handleProductSelect(null);
+            setSelectedProduct(null);
+          } else {
+            handleProductSelect(newValue);
+            setSelectedProduct(newValue);
+          }
         }}
         renderInput={(params) => <TextField {...params} label="Products" />}
       />
