@@ -20,13 +20,17 @@ function OrderSuccess() {
       <Box
         sx={{
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
           py: 10,
         }}
       >
-        <Typography variant="h5">
+        <Typography variant="h4">
           <b>Thank you for you order</b>
+        </Typography>
+
+        <Box sx={{ width: 500, my: 5 }}>
           <List>
             {orderItems.map((item: IOrderItem, idx: number) => (
               <OrderItem item={item} key={item.id + "-" + idx + 1} />
@@ -41,7 +45,7 @@ function OrderSuccess() {
               </Typography>
             </Box>
           </Box>
-        </Typography>
+        </Box>
       </Box>
     </>
   );
