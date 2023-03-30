@@ -49,11 +49,14 @@ function CartItem({ item }: { item: ICartItem }) {
                   <b>x{item.quantity}</b>
                 </Box>
                 <Box sx={{ flexGrow: "1" }}></Box>
+                <Box><small>{product.taxRate}% Tax</small></Box>
+                <Box sx={{ px: 0.5 }}></Box>
                 <Box>
                   $
                   {_getTotalPrice({
                     price: product?.price,
                     quantity: item.quantity,
+                    taxRate: product.taxRate
                   })}
                 </Box>
               </Box>
